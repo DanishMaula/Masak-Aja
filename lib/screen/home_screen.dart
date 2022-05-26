@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:masak_aja/carousel.dart';
 import 'package:masak_aja/category/asian_food.dart';
-import 'package:masak_aja/detail_screen.dart';
+import 'package:masak_aja/screen/detail_screen.dart';
 import 'package:masak_aja/model/data_masak.dart';
+import 'package:masak_aja/setting_screen.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key, required String title}) : super(key: key);
@@ -11,24 +14,71 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+             DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.orange,
+              ),
+              child: Column(
+                children: [
+                  Text('Manage Account & Settings',
+                  style: TextStyle(color: Colors.white,
+                  fontFamily: 'lato',
+                  fontSize: 20),
+                  ),
+                  Expanded(
+                    child: Hero(
+                      tag: 'logo',
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundImage: NetworkImage(
+                          'https://images.unsplash.com/photo-1474447976065-67d23accb1e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=385&q=80',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+            ),
+            ListTile(
+              title: Text('Account & Settings',
+              style: TextStyle(fontSize: 16,
+              fontFamily: 'lato'),
+              ),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return SettingScreen();
+                }));
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.white,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.settings,
+            color: Colors.white,),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
           ),
-          onPressed: () {},
         ),
         title: const Text(
           'Masak Aja',
           style: TextStyle(color: Colors.white,
-          fontFamily: 'lato'),
+          fontFamily: 'lato',
+          ),
         ),
         actions: <Widget>[
           CircleAvatar(
             radius: 20,
         backgroundImage: NetworkImage(
-          'https://source.unsplash.com/50x50/?portrait',
+          'https://images.unsplash.com/photo-1474447976065-67d23accb1e3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=385&q=80',
           ),
           ),
         ],
@@ -40,7 +90,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Halo, User 👋',
+                'Halo, Danish Maula 👋',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -48,24 +98,37 @@ class HomeScreen extends StatelessWidget {
                   color: Colors.orange,
                 ),
               ),
-              Text(
-                'Masak apa hari ini?',
-                style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'lato',
-                    color: Colors.orangeAccent),
+              
+              SizedBox(height: 15,),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: Offset(0, 1),
+                      blurRadius: 5,
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.search,
+                    color: Colors.orange,),
+                    hintText: 'Telusuri',
+                    hintStyle: TextStyle(
+                      fontFamily: 'lato',
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
-              Text(
-                'Temukan masakan mu disini.',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: 'Lato-Regular',
-                    color: Colors.grey),
-              ),
+
               Padding(
-                padding: EdgeInsets.only(top: 32.0),
+                padding: EdgeInsets.only(top: 8.0),
                 child: Text(
                   'Rekomendasi hari ini',
                   style: TextStyle(
@@ -76,9 +139,9 @@ class HomeScreen extends StatelessWidget {
               ),
               CarouselWidget(listMasak: dataMasakList),
               Padding(
-                padding: EdgeInsets.only(top: 16),
+                padding: EdgeInsets.only(top: 8),
                 child: Text(
-                  'Temukan Masakanmu',
+                  'Kategori',
                   style: TextStyle(
                       fontFamily: 'lato',
                       fontWeight: FontWeight.bold,
@@ -112,6 +175,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Padding(
                       padding: EdgeInsets.all(4),
                       child: InkWell(
@@ -177,7 +241,36 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Asah Skillmu!',
+                  style: TextStyle(
+                      fontFamily: 'lato',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ),
+              ),
+              Container(
+                height: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: 'WodYuxM7gnw', //Add videoID.
+                      flags: YoutubePlayerFlags(
+                        hideControls: false,
+                        controlsVisibleAtStart: true,
+                        autoPlay: false,
+                        mute: false,
+                      ),
+                    ),
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.amber,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

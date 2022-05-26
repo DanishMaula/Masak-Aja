@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:masak_aja/home_screen.dart';
+import 'package:masak_aja/screen/nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: const HomeScreen(title: 'Masak apa hari ini?'),
+      home: NavBar(),
     );
   }
 }

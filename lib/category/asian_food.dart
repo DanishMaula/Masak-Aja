@@ -10,13 +10,12 @@ class AsianFood extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //create a app bar that have back button
       appBar: AppBar(
         title: Text(title,
         style: TextStyle(fontFamily: 'lato',
         color: Colors.white),),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back,
+          icon: Icon(Icons.arrow_back_ios_rounded,
           color: Colors.white,),
           onPressed: () {
             Navigator.pop(context);

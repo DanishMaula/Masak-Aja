@@ -1,34 +1,42 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:masak_aja/model/data_masak.dart';
 
 class DetailScreen extends StatelessWidget {
+  final DataMasak dataMasak;
 
-  const DetailScreen({Key? key}) : super(key: key);
+  const DetailScreen({Key? key, required this.dataMasak}) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
-    final DataMasak datamasak = dataMasakList[0];
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(
               children: <Widget>[
                 Image.asset(
-                  'images/ayamgulai.jpg',
+                  dataMasak.image,
                   fit: BoxFit.cover,
                 ),
                 //create back button
                 Positioned(
                   top: 30,
                   left: 10,
-                  child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.black38,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
                   ),
                 ),
               ],
@@ -39,7 +47,7 @@ class DetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    datamasak.name,
+                    dataMasak.name,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -54,7 +62,7 @@ class DetailScreen extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 4, left: 16, right: 16),
               child: Text(
-                datamasak.description,
+                dataMasak.description,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -63,34 +71,21 @@ class DetailScreen extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 16, left: 16, right: 16),
-              child: Text('Bahan - bahan',
+              child: Text('Bahan - bahan :',
                 style: TextStyle(
                   fontSize: 20,
+                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.only(top: 16, left: 16, right: 16),
               child: Text(
-                datamasak.recipe,
+                dataMasak.recipe,
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                primary: Colors.orange, // Background color
-              ),
-              child: const Text(
-                'Masak Sekarang',
-                style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                fontFamily: 'lato'
                 ),
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:masak_aja/model/data_masak.dart';
 
-import 'detail_screen.dart';
+import 'screen/detail_screen.dart';
 
 class CarouselWidget extends StatefulWidget {
   final List<DataMasak> listMasak;
@@ -23,7 +23,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
       onTap: () {
         Navigator.push(context,
             MaterialPageRoute(builder: (context) {
-              return DetailScreen();
+              return DetailScreen(dataMasak: masak,);
             }));
       },
       child: Container(
@@ -48,8 +48,8 @@ class _CarouselWidgetState extends State<CarouselWidget> {
                     end: Alignment.topCenter,
                     stops: [0.1, 0.9],
                     colors: [
-                      Colors.black.withOpacity(0.8),
-                      Colors.white.withOpacity(0.1),
+                      Colors.black.withOpacity(0.0),
+                      Colors.white.withOpacity(0.0),
                     ]
                 ),
               ),
